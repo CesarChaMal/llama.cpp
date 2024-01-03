@@ -1,0 +1,10 @@
+conda create --name llama.cpp python=3.1
+conda activate llama.cpp
+
+apt install git-lfs
+git lfs install
+
+apt install make
+
+make
+
