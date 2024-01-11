@@ -23,6 +23,7 @@
 .clang-tidy
 .vs/
 .vscode/
+.idea/
 
 lcov-report/
 gcovr-report/
