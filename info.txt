@@ -11,23 +11,32 @@ conda create --name llama.cpp python=3.8
 conda activate llama.cpp
 conda info --envs
 
+git clone https://github.com/CesarChaMal/llama.cpp.git
+mv llama.cpp/* .
+
 apt install git-lfs
 git lfs install
 
-apt install make
-
+apt install -y make
 make
 
 git clone https://huggingface.co/teknium/OpenHermes-2.5-Mistral-7B openHermes-7b-v2.5
 mv openHermes-7b-v2.5 models/
 
+git clone https://huggingface.co/teknium/OpenHermes-7B openHermes-7b
+mv openHermes-7b models/
+
 python3 convert.py ./models/openHermes-7b-v2.5 --outfile ./models/openHermes-7b-v2.5/ggml-model-f16.gguf --outtype f16
+python3 convert.py ./models/openHermes-7b --outfile ./models/openHermes-7b/ggml-model-f16.gguf --outtype f16
 
 apt install python3-pip
 pip install -r requirements.txt
 pip install sentencepiece
 
+sudo apt update
+sudo apt install -y libimagequant-dev
 
 ./quantize ./models/openhermes-7b-v2..5/
+./quantize ./models/openhermes-7b/
 
 cd /mnt/c/IdeaProjects/llama.cpp
