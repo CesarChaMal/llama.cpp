@@ -17,7 +17,9 @@ mv llama.cpp/* .
 apt install git-lfs
 git lfs install
 
+apt install -y cmake
 apt install -y make
+cmake ..
 make
 
 git clone https://huggingface.co/teknium/OpenHermes-2.5-Mistral-7B openHermes-7b-v2.5
@@ -36,7 +38,16 @@ pip install sentencepiece
 sudo apt update
 sudo apt install -y libimagequant-dev
 
-./quantize ./models/openhermes-7b-v2..5/
-./quantize ./models/openhermes-7b/
+./quantize models/openHermes-7b-v2..5/ggml-model-f16.gguf models/openHermes-7b-v2..5/ggml-model-q8_0.gguf q8_0
+./quantize models/openHermes-7b/ggml-model-f16.gguf models/openHermes-7b/ggml-model-q8_0.gguf q8_0
 
-cd /mnt/c/IdeaProjects/llama.cpp
+./quantize models/openHermes-7b-v2..5/ggml-model-f16.gguf models/openHermes-7b-v2..5/ggml-model-q4_k.gguf q4_k
+./quantize models/openHermes-7b/ggml-model-f16.gguf models/openHermes-7b/ggml-model-q4_k.gguf q4_k
+
+./batched-bench ./models/openHermes-7b-v2.5/ggml-model-f16.gguf 4096 0 99 0 2048 128,512 1,2,3,4
+./batched-bench ./models/openHermes-7b/ggml-model-f16.gguf 4096 0 99 0 2048 128,512 1,2,3,4
+
+./server -m models/openHermes-7b-v2.5/ggml-model-q4_k.gguf --port 8888 --host 0.0.0.0 --ctx-size 10240 --parallel 4 -ngl 99 -n 512
+./server -m models/openHermes-7b/ggml-model-q4_k.gguf --port 8888 --host 0.0.0.0 --ctx-size 10240 --parallel 4 -ngl 99 -n 512
+
+
